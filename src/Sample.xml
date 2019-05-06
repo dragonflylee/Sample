@@ -1,0 +1,114 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+
+<Application xmlns='http://schemas.microsoft.com/windows/2009/Ribbon'>
+  <!-- Commands section -->
+  <Application.Commands>
+    <Command Name="cmdTabMain" LabelTitle="主页" />
+    <Command Name="GroupClipboard" LabelTitle="剪贴板" />
+    <Command Name="cmdQat" Comment="This is the Quick Access Toolbar"/>
+    <Command Name="cmdFileMenu" Comment="The application menu anchor"/>
+    <Command Name="cmdMRUList" LabelTitle="最近使用列表" Symbol="IDC_RECENT_FILES" />
+    <Command Name="cmdOpenMore" />
+    <Command Name="cmdOpenFile" LabelTitle="打开文件(&amp;O)" Symbol="IDM_OPENFILE">
+      <Command.LargeImages>
+        <Image>res/Open.bmp</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdOpenURL" LabelTitle="打开URL(&amp;U)">
+      <Command.LargeImages>
+        <Image>res/OpenURL.bmp</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdAbout" LabelTitle="关于(&amp;A)" Symbol="IDM_ABOUT">
+      <Command.LargeImages>
+        <Image>res/About.bmp</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdExit" LabelTitle="退出(&amp;X)" Symbol="IDM_EXIT">
+      <Command.LargeImages>
+        <Image>res/Exit.bmp</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdCut" LabelTitle="剪切(&amp;X)" Symbol="IDM_CUT">
+      <Command.SmallImages>
+        <Image>res/sCut.bmp</Image>
+      </Command.SmallImages>
+    </Command>
+    <Command Name="cmdCopy" LabelTitle="复制(&amp;C)" Symbol="IDM_COPY">
+      <Command.SmallImages>
+        <Image>res/sCopy.bmp</Image>
+      </Command.SmallImages>
+    </Command>
+    <Command Name="cmdPaste" LabelTitle="粘贴(&amp;P)" Symbol="IDM_PASTE">
+      <Command.SmallImages>
+        <Image>res/sPaste.bmp</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image>res/Paste.bmp</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdContextMain" Symbol="IDM_CONTEXT"/>
+  </Application.Commands>
+
+  <Application.Views>
+    <Ribbon>
+      <Ribbon.ApplicationMenu>
+        <ApplicationMenu CommandName="cmdFileMenu">
+          <ApplicationMenu.RecentItems>
+            <RecentItems CommandName="cmdMRUList" MaxCount="5" EnablePinning="false" />
+          </ApplicationMenu.RecentItems>
+          <MenuGroup Class="MajorItems">
+            <SplitButton CommandName="cmdOpenMore" >
+              <SplitButton.ButtonItem>
+                <Button CommandName="cmdOpenFile" />
+              </SplitButton.ButtonItem>
+              <SplitButton.MenuGroups>
+                <MenuGroup Class="MajorItems">
+                  <Button CommandName="cmdOpenFile" />
+                  <Button CommandName="cmdOpenURL" />
+                </MenuGroup>
+              </SplitButton.MenuGroups>
+            </SplitButton>
+            <Button CommandName="cmdAbout" />
+            <Button CommandName="cmdExit" />
+          </MenuGroup>
+        </ApplicationMenu>
+      </Ribbon.ApplicationMenu>
+      <Ribbon.Tabs>
+        <Tab CommandName="cmdTabMain">
+          <Tab.ScalingPolicy>
+            <ScalingPolicy>
+              <ScalingPolicy.IdealSizes>
+                <Scale Group="GroupClipboard" Size="Medium" />
+              </ScalingPolicy.IdealSizes>
+              <Scale Group="GroupClipboard" Size="Small"/>
+              <Scale Group="GroupClipboard" Size="Popup" />
+            </ScalingPolicy>
+          </Tab.ScalingPolicy>
+          <Group CommandName="GroupClipboard" SizeDefinition="ThreeButtons-OneBigAndTwoSmall">
+            <Button CommandName="cmdPaste"/>
+            <Button CommandName="cmdCut"/>
+            <Button CommandName="cmdCopy"/>
+          </Group>
+        </Tab>
+      </Ribbon.Tabs>
+      <Ribbon.QuickAccessToolbar>
+        <QuickAccessToolbar CommandName="cmdQat" />
+      </Ribbon.QuickAccessToolbar>
+    </Ribbon>
+    <ContextPopup>
+      <ContextPopup.ContextMenus>
+        <ContextMenu Name="ContextMain">
+          <MenuGroup>
+            <Button CommandName="cmdCut" />
+            <Button CommandName="cmdCopy" />
+            <Button CommandName="cmdPaste" />
+          </MenuGroup>
+        </ContextMenu>
+      </ContextPopup.ContextMenus>
+      <ContextPopup.ContextMaps>
+        <ContextMap CommandName="cmdContextMain" ContextMenu="ContextMain"/>
+      </ContextPopup.ContextMaps>
+    </ContextPopup>
+  </Application.Views>
+</Application>

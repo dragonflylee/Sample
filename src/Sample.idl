@@ -1,0 +1,19 @@
+import "oaidl.idl";
+import "ocidl.idl";
+
+[uuid(6157733A-C0D4-417a-9242-C660D086D81E), version(1.0)]
+library SampleLib
+{
+    [uuid(4EC0B86E-0C0E-4e9f-9686-5C8F6F28F5B9)]
+    interface IExternal : IDispatch
+    {
+        [propget]
+        HRESULT Username([out, retval] BSTR* retval);
+
+        [propput]
+        HRESULT View([in] IDispatch* disp);
+
+        [helpstring("Close Window")]
+        HRESULT Close();
+    }
+}
