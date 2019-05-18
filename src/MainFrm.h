@@ -1,20 +1,28 @@
 ﻿#pragma once
 
 #include "External.h"
+#include "Sample_s.h"
 #include <ExDispid.h>
 
-class CMainFrm : public CWindowImpl<CMainFrm, CWindow, CFrameWinTraits>,
-    public IUIApplication, public IUICommandHandler,
+class CMainFrm :
+    public CRibbonFrameWindowImpl<CMainFrm>, public CMessageLoop,
     public IDispEventImpl<IDC_IE, CMainFrm, &DIID_DWebBrowserEvents2, &LIBID_SHDocVw, 1, 1>,
     public IDispatchImpl<IDocHostUIHandlerDispatch>
 {
-public:
-    DECLARE_WND_CLASS_EX(TEXT("SampleWnd"), 0, COLOR_WINDOWFRAME);
 
-    BEGIN_MSG_MAP(CMainFrm)
-        MESSAGE_HANDLER(WM_CREATE, OnCreate)
-        MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
-        MESSAGE_HANDLER(WM_SIZE, OnSize)
+    typedef CRibbonFrameWindowImpl<CMainFrm> baseClass;
+
+public:
+    DECLARE_FRAME_WND_CLASS_EX(_T("SampleWnd"), IDR_MAIN, 0, COLOR_WINDOWFRAME)
+
+    BEGIN_MSG_MAP_EX(CMainFrm)
+        MSG_WM_CREATE(OnCreate)
+        MSG_WM_DESTROY(OnDestroy)
+        COMMAND_ID_HANDLER_EX(IDM_OPEN, OnOpen)
+        COMMAND_ID_HANDLER_EX(IDM_EXIT, OnExit)
+        COMMAND_ID_HANDLER_EX(IDM_ABOUT, OnAbout)
+        COMMAND_RANGE_HANDLER_EX(ID_FILE_MRU_FIRST, ID_FILE_MRU_LAST, OnRecent)
+        CHAIN_MSG_MAP(baseClass)
     END_MSG_MAP()
 
     BEGIN_SINK_MAP(CMainFrm)
@@ -22,18 +30,26 @@ public:
         SINK_ENTRY_EX(IDC_IE, DIID_DWebBrowserEvents2, DISPID_DOCUMENTCOMPLETE, OnDocumentComplete)
     END_SINK_MAP()
 
+    BEGIN_RIBBON_CONTROL_MAP(CMainFrm)
+        RIBBON_CONTROL(m_mru)
+    END_RIBBON_CONTROL_MAP();
+
+    BOOL PreTranslateMessage(MSG* pMsg)
+    {
+        return baseClass::PreTranslateMessage(pMsg);
+    }
     /**
     * 窗口事件相关
     */
-    LRESULT OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
-    LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
-    LRESULT OnSize(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
+    int OnCreate(LPCREATESTRUCT /*lpCreate*/);
+    void OnDestroy();
     /**
-    * RibbonUI 相关
+    * 菜单命令
     */
-    HRESULT LoadConfig();
-    HRESULT SaveConfig();
-
+    void OnOpen(UINT /*uNotifyCode*/, int /*nID*/, HWND /*wndCtl*/);
+    void OnRecent(UINT /*uNotifyCode*/, int /*nID*/, HWND /*wndCtl*/);
+    void OnExit(UINT /*uNotifyCode*/, int /*nID*/, HWND /*wndCtl*/);
+    void OnAbout(UINT /*uNotifyCode*/, int /*nID*/, HWND /*wndCtl*/);
     /**
     * IUnkown 实现
     */
@@ -59,42 +75,19 @@ public:
     STDMETHOD(TranslateUrl)(DWORD /*dwTranslate*/, BSTR /*bstrURLIn*/, BSTR * /*pbstrURLOut*/) { return E_NOTIMPL; }
     STDMETHOD(FilterDataObject)(IUnknown * /*pDO*/, IUnknown ** /*ppDORet*/) { return E_NOTIMPL; }
     /**
-    * IUIApplication 实现
-    */
-    STDMETHOD(OnCreateUICommand)(UINT /*nCmdID*/, UI_COMMANDTYPE /*typeID*/, IUICommandHandler** /*ppCommandHandler*/);
-    STDMETHOD(OnViewChanged)(UINT /*viewId*/, UI_VIEWTYPE /*typeId*/, IUnknown* /*pView*/, UI_VIEWVERB /*verb*/, INT /*uReasonCode*/);
-    STDMETHOD(OnDestroyUICommand)(UINT32 /*nCmdID*/, UI_COMMANDTYPE /*typeID*/, IUICommandHandler* /*commandHandler*/);
-    /**
-    * IUICommandHandler 实现
-    */
-    STDMETHOD(UpdateProperty)(UINT /*nCmdID*/, REFPROPERTYKEY /*key*/, const PROPVARIANT* /*ppropvarCurrentValue*/, PROPVARIANT* /*ppropvarNewValue*/);
-    STDMETHOD(Execute)(UINT /*nCmdID*/, UI_EXECUTIONVERB /*verb*/, const PROPERTYKEY* /*key*/, const PROPVARIANT* /*ppropvarValue*/, IUISimplePropertySet* /*pCommandExecutionProperties*/);
-    /**
     * DWebBrowserEvents2 事件
     */
     STDMETHOD_(void, OnTitleChange)(BSTR title);
     STDMETHOD_(void, OnDocumentComplete)(LPDISPATCH /*disp*/, VARIANT* /*url*/);
 
-protected:
-    class CRecentItems : public IUISimplePropertySet
-    {
-    public:
-        CRecentItems(const CComBSTR& i) : m_Item(i) { }
-        CComBSTR m_Item;
-        // IUnknown methods.
-        STDMETHODIMP_(ULONG) AddRef() { return 1; }
-        STDMETHODIMP_(ULONG) Release() { return 1; }
-        STDMETHOD(QueryInterface)(REFIID iid, void** ppv);
-        // IUISimplePropertySet method.
-        STDMETHOD(GetValue)(REFPROPERTYKEY key, PROPVARIANT *value);
-    };
+private:
+    HRESULT Open(LPCTSTR /*szURL*/);
 
 protected:
-    CAxWindow wndView;
+    CAxWindow m_wndView;
+    CComboBoxEx m_wndAddress;
     CComPtr<IWebBrowser2> m_pWb2;
-    CComPtr<IUIFramework> m_pUIFrame;
-    CComPtr<IUIRibbon> m_pRibbon;
     CComPtr<ITaskbarList3> m_pTaskbar;
     CComPtr<CExternal> m_pExternal;
-    CSimpleArray<CRecentItems> mru;
+    CRibbonRecentItemsCtrl<IDC_RECENT_FILES> m_mru;
 };

@@ -9,7 +9,7 @@
     <Command Name="cmdFileMenu" Comment="The application menu anchor"/>
     <Command Name="cmdMRUList" LabelTitle="最近使用列表" Symbol="IDC_RECENT_FILES" />
     <Command Name="cmdOpenMore" />
-    <Command Name="cmdOpenFile" LabelTitle="打开文件(&amp;O)" Symbol="IDM_OPENFILE">
+    <Command Name="cmdOpenFile" LabelTitle="打开文件(&amp;O)" Symbol="IDM_OPEN">
       <Command.LargeImages>
         <Image>res/Open.bmp</Image>
       </Command.LargeImages>
@@ -19,11 +19,7 @@
         <Image>res/OpenURL.bmp</Image>
       </Command.LargeImages>
     </Command>
-    <Command Name="cmdAbout" LabelTitle="关于(&amp;A)" Symbol="IDM_ABOUT">
-      <Command.LargeImages>
-        <Image>res/About.bmp</Image>
-      </Command.LargeImages>
-    </Command>
+    <Command Name="cmdAbout" LabelTitle="关于(&amp;A)" Symbol="IDM_ABOUT" />
     <Command Name="cmdExit" LabelTitle="退出(&amp;X)" Symbol="IDM_EXIT">
       <Command.LargeImages>
         <Image>res/Exit.bmp</Image>
@@ -69,11 +65,13 @@
                 </MenuGroup>
               </SplitButton.MenuGroups>
             </SplitButton>
-            <Button CommandName="cmdAbout" />
             <Button CommandName="cmdExit" />
           </MenuGroup>
         </ApplicationMenu>
       </Ribbon.ApplicationMenu>
+      <Ribbon.HelpButton>
+        <HelpButton CommandName="cmdAbout" />
+      </Ribbon.HelpButton>
       <Ribbon.Tabs>
         <Tab CommandName="cmdTabMain">
           <Tab.ScalingPolicy>

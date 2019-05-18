@@ -3,8 +3,7 @@
 #include "Resource.h"
 
 #define _VERTOSTRING(arg) #arg
-#define VERTOSTRING(arg) _VERTOSTRING(arg) 
-#define VER_FULL    VERTOSTRING(VER_MAIN.VER_SUB.VER_SUB2)
+#define VER_FULL(arg) arg##_VERTOSTRING(v VER_MAIN.VER_SUB.VER_SUB2)
 #define VER_FULL_RC VER_MAIN,VER_SUB,VER_SUB2,VER_BUILD
 
 #define APSTUDIO_READONLY_SYMBOLS
@@ -71,8 +70,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     ICON            IDR_MAIN, IDC_STATIC, 140, 20, 60, 60
     DEFPUSHBUTTON   "确定", IDOK, 125, 47, 50, 15
-    LTEXT           "示例程序 v", IDC_STATIC, 13, 20, 75, 15
-    LTEXT           VER_FULL, IDC_STATIC, 55, 20, 25, 15
+    LTEXT           VER_FULL("示例程序"), IDC_STATIC, 13, 20, 120, 15
     LTEXT           "蜻蜓特派员 (c) Copyright 2017", IDC_STATIC, 13, 35, 105, 20
     GROUPBOX        "", IDC_STATIC, 7, 7, 113, 55
 END
@@ -139,8 +137,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     ICON            IDR_MAIN, IDC_STATIC, 140, 20, 60, 60
     DEFPUSHBUTTON   "OK", IDOK, 125, 47, 50, 15
-    LTEXT           "Sample v", IDC_STATIC, 13, 20, 75, 15
-    LTEXT           VER_FULL, IDC_STATIC, 55, 20, 25, 15
+    LTEXT           VER_FULL("Sample"), IDC_STATIC, 13, 20, 120, 15
     LTEXT           "dragonflylee (c) Copyright 2017", IDC_STATIC, 13, 35, 105, 20
     GROUPBOX        "", IDC_STATIC, 7, 7, 113, 55
 END

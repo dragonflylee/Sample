@@ -27,7 +27,7 @@ public:
         return S_OK;
     }
 
-    STDMETHOD(put_View)(IDispatch *disp)
+    STDMETHOD(put_View)(IDispatch * /*disp*/)
     {
         return S_OK;
     }

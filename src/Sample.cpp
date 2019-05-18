@@ -1,25 +1,16 @@
 ﻿#include "Sample.h"
 #include "Sample_i.c"
 
-CComModule _Module;
+CAppModule _Module;
 
 int Run(int nCmdShow)
 {
     CMainFrm wndMain;
-    HWND hWnd = wndMain.Create(HWND_DESKTOP);
+    HWND hWnd = wndMain.CreateEx(HWND_DESKTOP);
     if (NULL == hWnd) return ::GetLastError();
-
-    wndMain.ShowWindow(nCmdShow);
-    wndMain.UpdateWindow();
-
     // 主消息循环:
-    MSG msg;
-    while (::GetMessage(&msg, NULL, 0, 0))
-    {
-        ::TranslateMessage(&msg);
-        ::DispatchMessage(&msg);
-    }
-    return (int)msg.wParam;
+    wndMain.ShowWindow(nCmdShow);
+    return wndMain.Run();
 }
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,

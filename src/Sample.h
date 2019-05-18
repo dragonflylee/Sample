@@ -5,18 +5,15 @@
 
 // ATL 头文件:
 #include <atlbase.h>
-#include <atlstr.h>
+#include <atlapp.h>
 
-extern CComModule _Module;
+extern CAppModule _Module;
 
-#include <atlwin.h>
+#include <atlcrack.h>
+#include <atldlgs.h>
+#include <atlctrls.h>
+#include <atlribbon.h>
 #include <atlcoll.h>
-
-// Windows 头文件
-#include <UIRibbon.h>
-#include <Shobjidl.h>
-#pragma comment(lib, "shlwapi.lib")
-#pragma comment(lib, "propsys.lib")
 
 #define HR_CHECK(_hr_) hr = _hr_; if (FAILED(hr)) { ATLTRACE(TEXT("0x%.8x\n"), hr); goto exit; }
 #define BOOL_CHECK(_hr_) if (!(_hr_)) { hr = HRESULT_FROM_WIN32(::GetLastError()); ATLTRACE(TEXT("0x%.8x\n"), hr); goto exit; }
