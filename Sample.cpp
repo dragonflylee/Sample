@@ -1,11 +1,10 @@
 ﻿#include "Sample.h"
-#include "MainFrm.h"
 
 CComModule _Module;
 
 int Run(int nCmdShow)
 {
-    CMaimFrm wndMain;
+    CMainFrm wndMain;
     HWND hWnd = wndMain.Create(HWND_DESKTOP);
     if (NULL == hWnd) return ::GetLastError();
 

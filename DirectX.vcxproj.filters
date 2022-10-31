@@ -56,4 +56,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Sample.xml" />
+  </ItemGroup>
 </Project>

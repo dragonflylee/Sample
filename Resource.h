@@ -8,7 +8,6 @@
 #define IDR_SHADER 103
 #define IDS_ABOUT 401
 #define IDS_FILE 402
-#define IDM_ABOUT 4001
 #ifndef IDC_STATIC
 #define IDC_STATIC -1
 #endif

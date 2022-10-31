@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <DirectXCollision.h>
+
 class CMesh
 {
 public:
@@ -10,8 +12,6 @@ public:
         ID3D11ShaderResourceView* tex = NULL);
     // 绘制多边形
     void Draw(ID3D11DeviceContext *d3dContext);
-
-    typedef CAutoPtrArray<CMesh> Collection;
 
 private:
     UINT indexCount;
@@ -51,8 +51,6 @@ public:
         return DirectX::XMLoadFloat4x4(&world);
     }
 
-    typedef CAutoPtrArray<CModel> Collection;
-
 private:
     struct CLoad
     {
@@ -66,7 +64,7 @@ private:
     void LoadMesh(aiNode * node, CLoad * ctx);
 
 private:
-    CMesh::Collection meshes;
+    CAutoPtrArray<CMesh> meshes;
     DirectX::BoundingBox bound;
     DirectX::XMFLOAT4X4 world;
 };

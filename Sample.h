@@ -14,9 +14,13 @@ extern CComModule _Module;
 #include <atlcoll.h>
 
 // Windows 头文件
+#include <UIRibbon.h>
+#include <Shobjidl.h>
+#pragma comment(lib, "shlwapi.lib")
+#pragma comment(lib, "propsys.lib")
+
 #include <d3d11.h>
 #include <d3dcompiler.h>
-#include <DirectXCollision.h>
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -24,3 +28,4 @@ extern CComModule _Module;
 #define BOOL_CHECK(_hr_) if (!(_hr_)) { hr = HRESULT_FROM_WIN32(::GetLastError()); ATLTRACE(TEXT("0x%.8x\n"), hr); goto exit; }
 
 #include "Resource.h"
+#include "MainFrm.h"
